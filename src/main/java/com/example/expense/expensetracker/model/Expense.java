@@ -16,7 +16,7 @@ import java.time.Instant;
 public class Expense {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private Instant expensedate;

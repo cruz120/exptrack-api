@@ -17,16 +17,15 @@ public class CategoryService {
     @Autowired
     private CategoryRepository repository;
 
-
+    //ADD
     public Category saveCategory(Category category) {
-
         return repository.save(category);
     }
 
     public List<Category> saveCategories(List<Category> categories){
         return repository.saveAll(categories);
     }
-
+    //GET
     public List<Category> getCategories(){
         return repository.findAll();
    }
@@ -43,10 +42,22 @@ public class CategoryService {
 
         return category.map(response -> ResponseEntity.ok().body(category)).orElseThrow(() -> new ResourceNotFoundException("Category not found this name :: "+name));
     }
+    //UPDATE
+    public Category updateCategory(Category NewCategory, int id) throws ResourceNotFoundException{
 
-   public String deleteCategory(int id){
-       repository.deleteById(id);
-       return "Removed : " + id;
+        Category catRecord = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id :: " + id));
+        catRecord.setName(NewCategory.getName());
+        return repository.save(catRecord);
+
+    }
+    //DELETE
+   public String deleteCategory(int id) throws ResourceNotFoundException{
+
+       Category catRecord = repository.findById(id)
+               .orElseThrow(() -> new ResourceNotFoundException("Category could not be deleted,did not found this id :: " + id));
+        repository.deleteById(catRecord.getId());
+       return "Deleted id :: " + id;
         }
 
 
